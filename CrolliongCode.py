@@ -92,12 +92,18 @@ class Crolling:
 
         # 게시물이 10개씩 있는데, 맨 마지막 페이지의 경우 몇개가 있는지 모르니까 마지막 페이지에서 페이지 번호를 몇번 누를지 결정
         # 맨마지막 페이지 모음에 도달하면 게시물 갯수를 이용하여 횟수 결정, 그 외는 페이지 모음당 10개씩 있으니까 10으로 설정
-        # TODO 게시물이 1000개 이상이 되면 문제가 생길 것임
+        # TODO 게시물이 1000개 이상이 되면 문제가 생길 것임 일단 임시로는 만들었는데 테스트는 못해봄
         for _i in range(_iterationTimes + 1):
             if _i == _iterationTimes:
-                _pageNumber = ((int(self.driver.find_element_by_xpath(
+                if _iterationTimes <10:
+                    _pageNumber = ((int(self.driver.find_element_by_xpath(
                     '//*[@id="dpcListPrint"]/div[2]/table/tbody/tr[1]/td[1]').text) % 100) // 10) + 1
-                self.get_page_link(_pageNumber)
+                    self.get_page_link(_pageNumber)
+                else:
+                    _pageNumber = (((int(self.driver.find_element_by_xpath(
+                        '//*[@id="dpcListPrint"]/div[2]/table/tbody/tr[1]/td[1]').text) % 1000) % 100)// 10) + 1
+                    self.get_page_link(_pageNumber)
+
             else:
                 _pageNumber = 10
                 self.get_page_link(_pageNumber)
